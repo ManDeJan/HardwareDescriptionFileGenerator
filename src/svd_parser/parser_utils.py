@@ -47,6 +47,7 @@ def apply_extension_impl(extension, properties, root):
                 properties.append(element_tag)
                 element_tag.string = str(extension[element])
 
+
 def get_device_name(in_filename):
     properties = parse_properties_from_xml(in_filename)
     return properties.device.find('name').string
@@ -85,7 +86,7 @@ def list_output_headers(device_file, out_directory, ext_filename=None):
 
 
 def parse_device(in_filename, out_directory,
-        ext_filename=None, write_files=True, verbose=True):
+                 ext_filename=None, write_files=True, verbose=True):
     output_headers = []
     template_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'templates')
 
@@ -124,7 +125,7 @@ def parse_device(in_filename, out_directory,
         if write_files:
             io_context = [('io', io), ('device', properties.device)]
             expand_template(os.path.join(template_dir, 'io.hpp.template'),
-                    io_path, context_pairs=io_context)
+                            io_path, context_pairs=io_context)
             if verbose:
                 print('Wrote {}'.format(io_path))
 
@@ -143,7 +144,7 @@ def parse_device(in_filename, out_directory,
                     parent_peripheral = p
 
                     # Override the derivedFrom peripheral with the given attributes.
-                    peripheral = format_utils.override_peripheral(peripheral, parent_peripheral);
+                    peripheral = format_utils.override_peripheral(peripheral, parent_peripheral)
                     break
 
         output_name = os.path.join(final_out_directory, peripheral.find('name').string + '.hpp')

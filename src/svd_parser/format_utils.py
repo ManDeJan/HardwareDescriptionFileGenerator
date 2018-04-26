@@ -8,6 +8,7 @@ import re
 ######## CMSIS SVD-specific formatting utilities
 #### IO
 
+
 def padded_hex(n):
     # return hex-encoded string with 8 digits
     return "{0:#0{1}x}".format(n, 10)
@@ -58,7 +59,7 @@ def sanitize_int(s, base=0):
 # Technically this is a generic property function and should go in parser_utils
 def unique_lookup(properties, key, name, recursive=False):
     result = [p for p in properties.find_all(key, recursive=recursive)
-            if p.find('name') and p.find('name').string == name]
+              if p.find('name') and p.find('name').string == name]
     if len(result) > 1:
         raise RuntimeError('non-unique property found')
     if len(result) == 0:
@@ -74,7 +75,6 @@ def io_address(io, key, device, port):
     peripheral = unique_lookup(device.peripherals, 'peripheral', peripheral_name)
 
     base_address = get_base_address(peripheral)
-
 
     if base_address is None:
         raise RuntimeError(
@@ -122,8 +122,8 @@ def reserved(io, key, device, port):
     for field in register.find_all('field'):
         if field.bitOffset is not None and field.bitWidth is not None:
             clearBitsFromRange(sanitize_int(field.bitOffset.string) + sanitize_int(field.bitWidth.string) - 1,
-                    sanitize_int(field.bitOffset.string),
-                    reserved)
+                               sanitize_int(field.bitOffset.string),
+                               reserved)
         elif field.bitRange is not None:
             bit_range = parse_bit_range(field.bitRange)
             clearBitsFromRange(sanitize_int(bit_range[0], 0), sanitize_int(bit_range[1], 0), reserved)
@@ -154,6 +154,7 @@ def format_register_name(peripheral, reg):
 
 def get_base_address(peripheral):
     return sanitize_int(peripheral.baseAddress.string, 0)
+
 
 def register_address(peripheral, register, cluster):
     base_address = get_base_address(peripheral)
@@ -194,6 +195,7 @@ def parse_array(element):
         out.append(entry)
     return out
 
+
 def get_registers(peripheral):
     # get all the registers for this peripheral
     registers = peripheral.find('registers')
@@ -221,6 +223,7 @@ def get_registers(peripheral):
             out[register_name] = register
 
     return out.values()
+
 
 def append_fields(dst, src):
     if dst.find('fields') is None:
@@ -356,14 +359,14 @@ def use_enumerated_values(field):
 
 def format_variable(v):
     #all c++ keywords
-    cppKeywords = set(['alignas', 'alignof', 'and', 'asm', 'auto', 'bitand', 'bitor', 'bool', 'break', 'case', \
-    'catch', 'char', 'class', 'compl', 'concept', 'const', 'constexpr', 'continue', 'decltype', 'default', \
-    'delete', 'do', 'double', 'else', 'enum', 'explicit', 'export', 'extern', 'false', 'float', 'for', \
-    'friend', 'goto', 'if', 'inline', 'int', 'long', 'mutable', 'namespace', 'new', 'noexcept', 'not', \
-    'nullptr', 'operator', 'or', 'private', 'protected', 'public', 'register', 'requires', 'return', \
-    'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'template', 'this', 'throw', 'true', \
-    'try', 'typedef', 'typeid', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void', 'volatile' \
-    'while', 'xor'])
+    cppKeywords = set(['alignas', 'alignof', 'and', 'asm', 'auto', 'bitand', 'bitor', 'bool', 'break', 'case',
+                       'catch', 'char', 'class', 'compl', 'concept', 'const', 'constexpr', 'continue', 'decltype', 'default',
+                       'delete', 'do', 'double', 'else', 'enum', 'explicit', 'export', 'extern', 'false', 'float', 'for',
+                       'friend', 'goto', 'if', 'inline', 'int', 'long', 'mutable', 'namespace', 'new', 'noexcept', 'not',
+                       'nullptr', 'operator', 'or', 'private', 'protected', 'public', 'register', 'requires', 'return',
+                       'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'template', 'this', 'throw', 'true',
+                       'try', 'typedef', 'typeid', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void', 'volatile'
+                       'while', 'xor'])
 
     out = format_namespace(v)
     out = out[:1].lower() + out[1:]
@@ -406,6 +409,7 @@ def get_str(prop):
             stripped = ''.join(c for c in prop.string if ord(c) < 128)
             return stripped
     return ''
+
 
 def override_peripheral(peripheral, parent):
     assert not parent is None

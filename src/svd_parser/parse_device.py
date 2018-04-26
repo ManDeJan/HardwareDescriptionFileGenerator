@@ -4,6 +4,7 @@ import parser_utils
 from sys import argv
 from sys import stderr
 
+
 def main():
     if len(argv) < 2:
         print('Usage: parse_device.py <input_file> <output_directory>')
@@ -15,6 +16,7 @@ def main():
         extension_filename = argv[3]
     parser_utils.parse_device(
             input_filename, output_directory, ext_filename=extension_filename)
+
 
 if __name__ == '__main__':
     main()
