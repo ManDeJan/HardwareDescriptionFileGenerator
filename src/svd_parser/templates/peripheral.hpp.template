@@ -62,13 +62,13 @@ namespace Kvasir {
 @{ cluster_name = format_namespace(get_str(cluster.find('name'))) }@
     namespace @(cluster_name) {
 @[for reg in cluster.find_all('register')]
-@{ print emit_register(peripheral, reg, cluster) }@
+@{ print(emit_register(peripheral, reg, cluster)) }@
 @[end for]@
     }  // namespace @(cluster_name)
 @[end for]@
 
 @[for reg in get_registers(peripheral)]@
-@{ print emit_register(peripheral, reg, None) }@
+@{ print(emit_register(peripheral, reg, None)) }@
 @[end for]@
     }  // namespace Chip
 }  // namespace Kvasir

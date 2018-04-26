@@ -64,7 +64,7 @@ def expand_template(in_filename, out_filename, context_pairs=None):
 
     # package the entire formatting utilities module in the interpreter context
     import format_utils
-    for name, val in format_utils.__dict__.iteritems():
+    for name, val in format_utils.__dict__.items():
         interpreter.globals[name] = val
 
     interpreter.file(open(in_filename, 'r'))
@@ -134,7 +134,7 @@ def parse_device(in_filename, out_directory,
             continue
         if peripheral.get('derivedFrom'):
             # Find the parent peripheral
-            print peripheral.get('derivedFrom')
+            print(peripheral.get('derivedFrom'))
 
             parent_peripheral = None
             for p in properties.device.peripherals:
