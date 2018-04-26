@@ -5,8 +5,8 @@ from operator import add
 import math
 import re
 
-######## CMSIS SVD-specific formatting utilities
-#### IO
+# ----- CMSIS SVD-specific formatting utilities
+# --- IO
 
 
 def padded_hex(n):
@@ -139,7 +139,7 @@ def action(key):
     return 'WriteLiteralAction<{0} << Pin>'.format(get_str(key.value))
 
 
-#### Registers
+# --- Registers
 def format_namespace(x):
     # TODO This strips out the underscore, which we might actually want
     r = re.compile('[^a-zA-Z0-9_]')
@@ -159,12 +159,12 @@ def get_base_address(peripheral):
 def register_address(peripheral, register, cluster):
     base_address = get_base_address(peripheral)
     registerOffset = 0
-    if not register.addressOffset is None:
+    if register.addressOffset is not None:
         registerOffset = sanitize_int(register.addressOffset.string, 0)
 
     address = base_address + registerOffset
 
-    if cluster and not cluster.addressOffset is None:
+    if cluster and cluster.addressOffset is not None:
         address += sanitize_int(cluster.addressOffset.string, 0)
 
     if address > 2**32 - 1:
@@ -172,6 +172,7 @@ def register_address(peripheral, register, cluster):
         return "static_cast<" + register_type(register) + ">(" + padded_hex(address) + ")"
 
     return padded_hex(address)
+
 
 def parse_array(element):
     if element.dimIndex:
@@ -189,7 +190,7 @@ def parse_array(element):
     for index in indices:
         entry = element
         entry.addressOffset.string = str(sanitize_int(entry.addressOffset.string, 0)
-                + increment * (index - indices[0]))
+                                         + increment * (index - indices[0]))
         name = element.find('name').string.replace('%s', str(index))
         entry.find('name').string = name
         out.append(entry)
@@ -234,11 +235,13 @@ def append_fields(dst, src):
         dst.find('fields').append(field)
     return dst
 
+
 def register_type(register):
     # TODO What if register.size is hex
     if register.size and sanitize_int(register.size.string, 0) is 8:
         return 'unsigned char'
     return 'unsigned'
+
 
 register_to_keys = {
     'name': 'name',
@@ -358,7 +361,7 @@ def use_enumerated_values(field):
 
 
 def format_variable(v):
-    #all c++ keywords
+    # all c++ keywords
     cppKeywords = set(['alignas', 'alignof', 'and', 'asm', 'auto', 'bitand', 'bitor', 'bool', 'break', 'case',
                        'catch', 'char', 'class', 'compl', 'concept', 'const', 'constexpr', 'continue', 'decltype', 'default',
                        'delete', 'do', 'double', 'else', 'enum', 'explicit', 'export', 'extern', 'false', 'float', 'for',
@@ -412,8 +415,8 @@ def get_str(prop):
 
 
 def override_peripheral(peripheral, parent):
-    assert not parent is None
-    assert not peripheral is None
+    assert parent is not None
+    assert peripheral is not None
 
     parent_copy = parent
     # For all the tags in peripheral that are specified, override them in parent_copy

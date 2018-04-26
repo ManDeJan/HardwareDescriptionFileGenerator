@@ -5,10 +5,10 @@ import os
 
 # parser_utils.parse_device('../data/MK11D5WS.svd', '/tmp', ext_filename='../data/extensions/MK11D5WS.json')
 
-#in_filename = '../data/MK11D5WS.svd'
-#ext_filename = '../data/extensions/MK11D5WS.json'
-#in_filename = '../data/nrf52.svd'
-#ext_filename = None
+# in_filename = '../data/MK11D5WS.svd'
+# ext_filename = '../data/extensions/MK11D5WS.json'
+# in_filename = '../data/nrf52.svd'
+# ext_filename = None
 
 in_filename = '../data/STMicro/STM32L4x6.svd'
 ext_filename = None
@@ -50,7 +50,7 @@ if io:
     # This takes a long time.
     io_context = [('io', io), ('device', properties.device)]
     expand_template(os.path.join(template_dir, 'io.hpp.template'),
-            io_path, context_pairs=io_context)
+                    io_path, context_pairs=io_context)
 
 for peripheral in properties.find_all('peripheral'):
     if peripheral.find('name') is None:
@@ -62,4 +62,3 @@ for peripheral in properties.find_all('peripheral'):
     expand_template(
             os.path.join(template_dir, 'peripheral.hpp.template'),
             output_name, context_pairs=peripheral_context)
-

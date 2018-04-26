@@ -1,5 +1,6 @@
 from lxml import etree
 
+
 def validate_schema(input_filename, schema_filename):
     with open(schema_filename) as f:
         schema_xml = etree.XML(f.read())

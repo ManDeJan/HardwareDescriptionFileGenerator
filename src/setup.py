@@ -10,4 +10,4 @@ setup(name='svd_parser',
       url='https://github.com/kvasir-io/HardwareDescriptionFileGenerator',
       requires=['bs4', 'empy'],
       packages=['svd_parser'],
-     )
+      )

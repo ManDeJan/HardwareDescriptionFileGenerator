@@ -5,7 +5,8 @@ import os
 
 import format_utils
 
-######## Generic parsing utilities
+
+# ----- Generic parsing utilities
 def parse_properties_from_xml(input_filename):
     with open(input_filename) as f:
         return BeautifulSoup(f.read(), 'xml')
@@ -53,7 +54,7 @@ def get_device_name(in_filename):
     return properties.device.find('name').string
 
 
-######## Template expansion
+# Template expansion
 def expand_template(in_filename, out_filename, context_pairs=None):
     interpreter = em.Interpreter(output=open(out_filename, 'w'))
     if context_pairs:
