@@ -8,6 +8,6 @@ setup(name='svd_parser',
       author='Jackie Kay',
       author_email='jacquelinekay1@gmail.com',
       url='https://github.com/kvasir-io/HardwareDescriptionFileGenerator',
-      requires=['bs4', 'empy'],
+      requires=['bs4', 'empy', 'lxml'],
       packages=['svd_parser'],
       )
